@@ -86,6 +86,8 @@ insert into itensPedidos (idPedido, idProduto, quantidade) values (1, 1, 2);
 
 insert into itensPedidos (idPedido, idProduto, quantidade) values (1, 2, 1);
 
-select itensPedidos.idItensPedidos, pedidos.idPedido, produtos.idProduto, clientes.nomeCliente, produtos.nomeProduto, produtos.precoProduto from(itensPedidos inner join pedidos on itensPedidos.idPedido = pedidos.idPedido) inner join produtos on itensPedidos.idProduto = produtos.idProduto inner join clientes on produtos.idProduto = clientes.idCliente;
-
+select pedidos.idPedido, produtos.idProduto, clientes.nomeCliente, produtos.nomeProduto, quantidade, produtos.precoProduto 
+from pedidos inner join clientes on pedidos.idCliente = clientes.idCliente inner join 
+itensPedidos on pedidos.idPedido = itensPedidos.idPedido inner join 
+produtos on produtos.idProduto = itensPedidos.idProduto;
 
