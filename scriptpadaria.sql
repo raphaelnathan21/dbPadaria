@@ -39,6 +39,10 @@ insert into produtos(nomeProduto, descricaoProduto, precoProduto, estoqueProduto
 
 insert into produtos(nomeProduto, descricaoProduto, precoProduto, estoqueProduto, categoriaProduto, idFornecedor) values ("Cacetão", "Alimento feito de massa de farinha de cereais cozida num forno", "0.50", 100, "Pães", 1);
 
+insert into produtos(nomeProduto, descricaoProduto, precoProduto, estoqueProduto, categoriaProduto, idFornecedor, validadeProduto, pesoProduto, ingredientesProduto) values ("Pão de queijo", "iguaria oriunda de Minas Gerais, muito difundida em todo o Brasil", "2.50", 12, "Pães", 1, "2024-04-02", "30.00", "polvilho e queijo parmesão");
+
+insert into produtos(nomeProduto, descricaoProduto, precoProduto, estoqueProduto, categoriaProduto, idFornecedor, validadeProduto, pesoProduto, ingredientesProduto) values ("Quibe", "prato típico do Oriente Médio que consiste em um bolinho de massa de triguilho ou semolina, recheado com carne, temperada com ervas", "2.50", 20, "Salgados", 1, "2024-06-02", "50.00", "carne moída e farinha");
+
 select * from produtos where categoriaProduto = "Pães";
 
 select * from produtos where precoProduto < 50.00 order by precoProduto asc;
@@ -91,3 +95,24 @@ from pedidos inner join clientes on pedidos.idCliente = clientes.idCliente inner
 itensPedidos on pedidos.idPedido = itensPedidos.idPedido inner join 
 produtos on produtos.idProduto = itensPedidos.idProduto;
 
+alter table produtos add column validadeProduto date;
+alter table produtos add column pesoProduto decimal (10, 2);
+alter table produtos add column ingredientesProduto text;
+
+alter table produtos drop column validadeProduto;
+
+describe produtos;
+
+select sum(produtos.precoProduto * itensPedidos.quantidade) as Total from produtos inner join itensPedidos on produtos.idProduto = itensPedidos.idProduto where idPedido = 1;
+
+/* ATIVIDADE: POSSÍVEIS FILTROS PARA PADARIA */
+
+/* Filtrar produtos por validade (por exemplo, produtos com validade maior do que a data atual) */
+ select * from produtos where validadeProduto > curdate();
+ 
+ /*Filtrar produtos que contenham um ingrediente específico */
+ select * from produtos where ingredientesProduto like '%farinha%';
+ 
+ /*ATIVIDADE: FILTRAR PÃES NÃO QUE SEJAM FEITOS À BASE DE FARINHA DE TRIGO, COM VALOR ATÉ 7.90*/
+ 
+ select * from produtos where categoriaProduto = 'Pães' and ingredientesProduto not like '%farinha de trigo%' and precoProduto <= 7.90;
